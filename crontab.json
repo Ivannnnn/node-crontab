@@ -1,0 +1,6 @@
+{
+  "bs": {
+    "time": "52 23 * * *",
+    "path": "/home/ivan/Desktop/dev/node-crontab/run"
+  }
+}

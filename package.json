@@ -1,0 +1,9 @@
+{
+  "name": "node-crontab",
+  "version": "0.1.0",
+  "description": "",
+  "main": "app/index.js",
+  "bin": {
+    "node-crontab": "app/index.js"
+  }
+}
