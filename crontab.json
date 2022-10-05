@@ -1,0 +1,14 @@
+{
+  "addTodaysShiftToCrontab": {
+    "time": "* 11 * * *",
+    "path": "/home/ivan/dev/lieferando/job-tracking/main --addTodaysShiftToCrontab"
+  },
+  "restoChanges": {
+    "time": "30 10 * * *",
+    "path": "/home/ivan/dev/lieferando/lieferando-resto-changes/main"
+  },
+  "checkJob": {
+    "time": "* 16-21 06 10 *",
+    "path": "/home/ivan/dev/lieferando/job-tracking/main --checkJob"
+  }
+}
