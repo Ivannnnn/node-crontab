@@ -6,6 +6,8 @@ const fs = require('fs')
 const { checkJSON } = require('./helpers')
 const crontab = require('./crontab.js')
 
+const CRONTAB_JSON_PATH = __dirname + '/../crontab.json'
+
 function isCLICall() {
   const stackLine = new Error().stack.split('\n')[2]
   const callerModuleName = /\((.*):\d+:\d+\)$/.exec(stackLine)[1]
@@ -13,11 +15,10 @@ function isCLICall() {
 }
 
 function editCrontabJson() {
-  const old = fs.readFileSync('./crontab.json', 'utf-8')
-
-  exec('"${EDITOR:-nano}" -w crontab.json')
-
-  const fresh = fs.readFileSync('./crontab.json', 'utf-8')
+  const old = fs.readFileSync(CRONTAB_JSON_PATH, 'utf-8')
+  exec(`code -w ${CRONTAB_JSON_PATH}`)
+  //exec('"${EDITOR:-nano}" -w ' + CRONTAB_JSON_PATH) // doesn't work
+  const fresh = fs.readFileSync(CRONTAB_JSON_PATH, 'utf-8')
 
   if (!checkJSON(fresh)) return console.error('Not valid JSON!')
   if (fresh === old) console.log('No changes made!')

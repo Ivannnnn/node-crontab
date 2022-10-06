@@ -2,12 +2,12 @@ const { basename, dirname } = require('path')
 const fs = require('fs')
 const { difference, crontabRead, crontabWrite } = require('./helpers')
 
-const CRONTAB_JSON = '../crontab.json'
+const CRONTAB_JSON_PATH = __dirname + '/../crontab.json'
 
 function transformToCrontabString(name, cronjobObj) {
   const { time, path, env = 'node' } = cronjobObj
   const logsDir = dirname(path) + '/.logs'
-  const fileName = basename(path)
+  const fileName = basename(path).split(' ')[0]
 
   if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir)
 
@@ -23,7 +23,7 @@ function transformToCrontabString(name, cronjobObj) {
 }
 
 function jsonCrontabToLinuxCrontab() {
-  const crontabJson = require(CRONTAB_JSON)
+  const crontabJson = require(CRONTAB_JSON_PATH)
   const crontab = crontabRead().split('\n')
 
   const newNames = difference(Object.keys(crontabJson), crontab.map(getName))
@@ -49,15 +49,15 @@ function jsonCrontabToLinuxCrontab() {
 const getName = (line) => line.match(/#@(.+)@$/)?.[1]
 
 function remove(name) {
-  const crontabJson = require(CRONTAB_JSON)
+  const crontabJson = require(CRONTAB_JSON_PATH)
   delete crontabJson[name]
-  fs.writeFileSync(CRONTAB_JSON, JSON.stringify(crontabJson, null, 2))
+  fs.writeFileSync(CRONTAB_JSON_PATH, JSON.stringify(crontabJson, null, 2))
   jsonCrontabToLinuxCrontab()
 }
 function addOrUpdate(name, obj) {
-  const crontabJson = require(CRONTAB_JSON)
+  const crontabJson = require(CRONTAB_JSON_PATH)
   crontabJson[name] = obj
-  fs.writeFileSync(CRONTAB_JSON, JSON.stringify(crontabJson, null, 2))
+  fs.writeFileSync(CRONTAB_JSON_PATH, JSON.stringify(crontabJson, null, 2))
   jsonCrontabToLinuxCrontab()
 }
 
